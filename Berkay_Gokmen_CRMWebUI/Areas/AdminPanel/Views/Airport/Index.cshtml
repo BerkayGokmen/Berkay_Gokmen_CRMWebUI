@@ -1,0 +1,282 @@
+﻿@using Berkay_Gokmen_CRMWebUI.Areas.AdminPanel.Models.Airports
+@model List<AirportDTO>
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+@* @Html.AntiForgeryToken() *@
+<h1>Airport</h1>
+
+<div class="card">
+	<div class="card-header">
+		<div class="card-tools">
+			<a href="#" class="btn btn-primary btn-block mb-3" data-toggle="modal" data-target="#modal-AddAirport">Havaalanı Ekle</a>
+
+		</div>
+	</div>
+</div>
+<div class="card-body">
+	<table id="tblHavaalanları" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>AirportName</th>
+				<th>Code</th>
+				<th>Location</th>
+				<th>DepartureFlights</th>
+				<th>ArrivalFlights</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.AirportName</td>
+						<td>@item.Code</td>
+						<td>@item.Location</td>
+						<td>@item.DepartureFlights</td>
+						<td>@item.ArrivalFlights</td>
+						<td>
+							<button type="button" class="btn btn-block btn-warning btnGetAirportDetail" data-toggle="modal" data-target="#modal-UpdateAirport" data-guid="@item.guid">Görüntüle</button>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>
+<div class="modal fade" id="modal-AddAirport">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Yeni Havaalanı Ekle</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtAirportName_Add" class="col-sm-3 col-form-label">AirportName</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="txtAirportName_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtCode_Add" class="col-sm-2 col-form-label">Code</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtCode_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtLocation_Add" class="col-sm-2 col-form-label">Location</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtLocation_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtDepartureFlights_Add" class="col-sm-3 col-form-label">DepartureFlights</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="txtDepartureFlights_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtArrivalFlights_Add" class="col-sm-3 col-form-label">ArrivalFlights</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="txtArrivalFlights_Add" placeholder="Doldurun">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnAddAirport">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-UpdateAirport">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="HAirportFullName">Havaalanı Güncelle</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtAirportName_Update" class="col-sm-3 col-form-label">AirportName</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="txtAirportName_Update" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtCode_Update" class="col-sm-2 col-form-label">Code</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtCode_Update" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtLocation_Update" class="col-sm-2 col-form-label">Location</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtLocation_Update" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtDepartureFlights_Update" class="col-sm-3 col-form-label">DepartureFlights</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="txtDepartureFlights_Update" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtArrivalFlights_Update" class="col-sm-3 col-form-label">ArrivalFlights</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="txtArrivalFlights_Update" placeholder="Doldurun">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnUpdateAirport">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<script>
+	$(function () {
+
+		$("#tblHavaalanları").DataTable({
+			"responsive": true, "lengthChange": false, "autoWidth": false,
+			"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+		}).buttons().container().appendTo('#tblHavaalanları_wrapper .col-md-6:eq(0)');
+
+
+	});
+	$('#btnAddAirport').click(function () {
+
+		var addAirportDTORequest = {
+
+
+			"AirportName": $('#txtAirportName_Add').val(),
+			"Code": $('#txtCode_Add').val(),
+			"Location": $('#txtLocation_Add').val(),
+			"DepartureFlights": $('#txtDepartureFlights_Add').val(),
+			"ArrivalFlights": $('#txtArrivalFlights_Add').val()
+
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/AddAirport",
+			type: "post",
+			data: { addAirportDTORequest },
+			// beforeSend: function (xhr) {
+			// 	xhr.setRequestHeader("XSRF-Token", $('input:hidden[name="__RequestVerificationToken]').val())
+			// },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Havaalanı Bilgileri Başarıyla Eklenmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}/* BuradaKAldık */
+		});
+	});
+	$('.btnGetAirportDetail').click(function () {
+		var guid = $(this).attr('data-guid')
+		$.ajax({
+			url: "/Admin/Havaalanı/" + guid,
+			type: "get",
+			success: function (response) {
+				$('#HAirportFullName').html('').append(response.AirportName)
+				$('#txtAirportName_Update').val(response.AirportName)
+				$('#txtCode_Update').val(response.Code)
+				$('#txtLocation_Update').val(response.Location)
+				$('#txtDepartureFlights_Update').val(response.DepartureFlights)
+				$('#txtArrivalFlights_Update').val(response.ArrivalFlights)
+				$('#btnUpdateAirport').attr('data-guid', guid)
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	})
+	$('#btnUpdateAirport').click(function () {
+		var airportGuid = $(this).attr('data-guid');
+		var updateAirportDTO = {
+
+
+			"AirportName": $('#txtAirportName_Update').val(),
+			"Code": $('#txtCode_Update').val(),
+			"Location": $('#txtLocation_Update').val(),
+			"DepartureFlights": $('#txtDepartureFlights_Update').val(),
+			"ArrivalFlights": $('#txtArrivalFlights_Update').val(),
+			"guid": airportGuid
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/UpdateAirport",
+			type: "post",
+			data: { updateAirportDTO },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Havaalanı Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+
+</script>

@@ -1,0 +1,313 @@
+﻿@using Berkay_Gokmen_CRMWebUI.Areas.AdminPanel.Models.Flights
+@model List<FlightDTO>
+@{
+    ViewData["Title"] = "Flights";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Flights</h1>
+<div class="card">
+	<div class="card-header">
+		<div class="card-tools">
+			<a href="#" class="btn btn-primary btn-block mb-3" data-toggle="modal" data-target="#modal-AddFlight">Uçuş Ekle</a>
+
+		</div>
+	</div>
+</div>
+
+
+<div class="card-body">
+	<table id="example1" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>FlightId</th>
+				<th>FlightNumber</th>
+				<th>Origin</th>
+				<th>Destination</th>
+				<th>DepartureTime</th>
+				<th>ArrivalTime</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.FlightId</td>
+						<td>@item.FlightNumber</td>
+						<td>@item.Origin</td>
+						<td>@item.Destination</td>
+						<td>@item.DepartureTime</td>
+						<td>@item.ArrivalTime</td>
+						<td>@item.Price</td>
+						<td>
+							<button type="button" class="btn btn-block btn-warning btnGetFlightDetail" data-toggle="modal" data-target="#modal-UpdateFlight" data-guid="@item.Guid">Görüntüle</button>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>
+<div class="modal fade" id="modal-AddFlight">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Yeni Uçuş Ekle</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtFlightId_Add" class="col-sm-2 col-form-label">FlightId</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtFlightId_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtFlightNumber_Add" class="col-sm-2 col-form-label">FlightNumber</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtFlightNumber_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtOrigin_Add" class="col-sm-2 col-form-label">Origin</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtOrigin_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtDestination_Add" class="col-sm-2 col-form-label">Destination</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtDestination_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtDepartureTime_Add" class="col-sm-2 col-form-label">DepartureTime</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtDepartureTime_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtArrivalTime_Add" class="col-sm-2 col-form-label">ArrivalTime</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtArrivalTime_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPrice_Add" class="col-sm-2 col-form-label">Price</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtPrice_Add" placeholder="Doldurun">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnAddFlight">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-UpdateFlight">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="HFlightFullName"></h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtFlightId_Update" class="col-sm-2 col-form-label">FlightId</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtFlightId_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtFlightNumber_Update" class="col-sm-2 col-form-label">FlightNumber</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" disabled="disabled" id="txtFlightNumber_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtOrigin_Update" class="col-sm-2 col-form-label">Origin</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control"  id="txtOrigin_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtDestination_Update" class="col-sm-2 col-form-label">Destination</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtDestination_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtDepartureTime_Update" class="col-sm-2 col-form-label">DepartureTime</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtDepartureTime_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtArrivalTime_Update" class="col-sm-2 col-form-label">ArrivalTime</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtArrivalTime_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPrice_Update" class="col-sm-2 col-form-label">Price</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtPrice_Update" placeholder="text">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnUpdateFlight">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<script>
+	$(function () {
+		$("#example1").DataTable({
+			"responsive": true, "lengthChange": false, "autoWidth": false,
+			"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+		}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+	});
+	$('.btnGetFlightDetail').click(function () {
+		var guid = $(this).attr('data-guid')
+		$.ajax({
+			url: "/Admin/Flight/" + guid,
+			type: "get",
+			success: function (response) {
+				$('#HFlightFullName').html('').append(response.FlightNumber)
+				$('#txtFlightId_Update').val(response.FlightId)
+				$('#txtFlightNumber_Update').val(response.FlightNumber)
+				$('#txtOrigin_Update').val(response.Origin)
+				$('#txtDestination_Update').val(response.Destination)
+				$('#txtDepartureTime_Update').val(response.DepartureTime)
+				$('#txtArrivalTime_Update').val(response.ArrivalTime)
+				$('#txtPrice_Update').val(response.Price)
+				$('#btnUpdateFlight').attr('data-guid', guid)
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	})
+	$('#btnUpdateFlight').click(function () {
+		var flightguid = $(this).attr('data-guid');
+		var flightRequestDTO = {
+
+
+			"FlightId": $('#txtFlightId_Update').val(),
+			"FlightNumber": $('#txtFlightNumber_Update').val(),
+			"Origin": $('#txtOrigin_Update').val(),
+			"Destination": $('#txtDestination_Update').val(),
+			"DepartureTime": $('#txtDepartureTime_Update').val(),
+			"ArrivalTime": $('#txtArrivalTime_Update').val(),
+			"Price": $('#txtPrice_Update').val(),
+			"Guid": flightguid
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/UpdateFlight",
+			type: "post",
+			data: { flightRequestDTO },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Uçuş Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+	$('#btnAddFlight').click(function () {
+
+		var flightRequestDTO = {
+
+
+			"FlightId": $('#txtFlightId_Add').val(),
+			"FlightNumber": $('#txtFlightNumber_Add').val(),
+			"Origin": $('#txtOrigin_Add').val(),
+			"Destination": $('#txtDestination_Add').val(),
+			"DepartureTime": $('#txtDepartureTime_Add').val(),
+			"ArrivalTime": $('#txtArrivalTime_Add').val(),
+			"Price": $('#txtPrice_Add').val(),
+			
+
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/AddFlight",
+			type: "post",
+			data: { flightRequestDTO },
+			// beforeSend: function (xhr) {
+			// 	xhr.setRequestHeader("XSRF-Token", $('input:hidden[name="__RequestVerificationToken]').val())
+			// },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Uçuş Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+</script>

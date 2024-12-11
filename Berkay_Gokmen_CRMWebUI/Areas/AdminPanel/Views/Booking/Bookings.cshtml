@@ -1,0 +1,267 @@
+﻿@using Berkay_Gokmen_CRMWebUI.Areas.AdminPanel.Models.Booking
+@model List<BookingDTO>
+@{
+    ViewData["Title"] = "Bookings";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Bookings</h1>
+
+
+
+<div class="card">
+	<div class="card-header">
+		<div class="card-tools">
+			<a href="#" class="btn btn-primary btn-block mb-3" data-toggle="modal" data-target="#modal-AddBooking">Rezervasyon Ekle</a>
+
+		</div>
+	</div>
+</div>
+
+
+<div class="card-body">
+	<table id="example1" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>BookingDate</th>
+				<th>FlightId</th>
+				<th>PassengerId</th>
+				<th>PassengerName</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.BookingDate</td>
+						<td>@item.FlightId</td>
+						<td>@item.PassengerId</td>
+						<td>@item.PassengerName</td>
+						
+						<td>
+							<button type="button" class="btn btn-block btn-warning btnGetBookingDetail" data-toggle="modal" data-target="#modal-UpdateBooking" data-guid="@item.Guid">Görüntüle</button>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>
+<div class="modal fade" id="modal-AddBooking">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Yeni Rezervasyon Ekle</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtBookingDate_Add" class="col-sm-2 col-form-label">BookingDate</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtBookingDate_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtFlightId_Add" class="col-sm-2 col-form-label">FlightId</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtFlightId_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPassengerId_Add" class="col-sm-2 col-form-label">PassengerId</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtPassengerId_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPassengerName_Add" class="col-sm-2 col-form-label">PassengerName</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtPassengerName_Add" placeholder="Doldurun">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnAddBooking">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-UpdateBooking">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="HBookingFullName"></h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtBookingDate_Update" class="col-sm-2 col-form-label">BookingDate</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtBookingDate_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtFlightId_Update" class="col-sm-2 col-form-label">FlightId</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" disabled="disabled" id="txtFlightId_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPassengerId_Update" class="col-sm-2 col-form-label">PassengerId</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtPassengerId_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPassengerName_Update" class="col-sm-2 col-form-label">PassengerName</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtPassengerName_Update" placeholder="text">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnUpdateBooking">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<script>
+	$(function () {
+		$("#example1").DataTable({
+			"responsive": true, "lengthChange": false, "autoWidth": false,
+			"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+		}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+	});
+	$('.btnGetBookingDetail').click(function () {
+		var guid = $(this).attr('data-guid')
+		$.ajax({
+			url: "/Admin/Booking/" + guid,
+			type: "get",
+			success: function (response) {
+				$('#HBookingFullName').html('').append(response.PassengerName)
+				$('#txtBookingDate_Update').val(response.BookingDate)
+				$('#txtFlightId_Update').val(response.FlightId)
+				$('#txtPassengerId_Update').val(response.PassengerId)
+				$('#txtPassengerName_Update').val(response.PassengerName)
+			
+				$('#btnUpdateBooking').attr('data-guid', guid)
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	})
+	$('#btnUpdateBooking').click(function () {
+		var bookingGuid = $(this).attr('data-guid');
+		var updateBookingDTO = {
+
+
+			"BookingDate": $('#txtBookingDate_Update').val(),
+			"FlightId": $('#txtFlightId_Update').val(),
+			"PassengerId": $('#txtPassengerId_Update').val(),
+			"PassengerName": $('#txtPassengerName_Update').val(),
+		
+			"Guid": bookingGuid
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/UpdateBooking",
+			type: "post",
+			data: { updateBookingDTO },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Rezervasyon Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+	$('#btnAddBooking').click(function () {
+
+		var addBookingDTO = {
+
+
+			"BookingDate": $('#txtBookingDate_Add').val(),
+			"FlightId": $('#txtFlightId_Add').val(),
+			"PassengerId": $('#txtPassengerId_Add').val(),
+			"PassengerName": $('#txtPassengerName_Add').val(),
+			
+
+		};
+
+		$.ajax({
+			url: "/Admin/AddBooking",
+			type: "post",
+			data: { addBookingDTO },
+			// beforeSend: function (xhr) {
+			// 	xhr.setRequestHeader("XSRF-Token", $('input:hidden[name="__RequestVerificationToken]').val())
+			// },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Rezervasyon Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+</script>

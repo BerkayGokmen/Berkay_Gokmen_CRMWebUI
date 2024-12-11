@@ -1,0 +1,278 @@
+﻿@using Berkay_Gokmen_CRMWebUI.Areas.AdminPanel.Models.Passenger
+@model List<PassengerDTO>
+@{
+	ViewData["Title"] = "/* Passenger */";
+	Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+@* @Html.AntiForgeryToken() *@
+<div class="card">
+	<div class="card-header">
+		<div class="card-tools">
+			<a href="#" class="btn btn-primary btn-block mb-3" data-toggle="modal" data-target="#modal-AddPassenger">Yolcu Ekle</a>
+
+		</div>
+	</div>
+</div>
+
+<div class="card-body">
+	<table id="example1" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Ad</th>
+				<th>Soyad</th>
+				<th>Kullanıcı Adı</th>
+				<th>Email</th>
+				<th>Telefon Numarası</th>
+				<th>İşlemler</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.FirstName</td>
+						<td>@item.LastName</td>
+						<td>@item.PassengerName</td>
+						<td>@item.Email</td>
+						<td>@item.PhoneNumber</td>
+						<td>
+							<button type="button" class="btn btn-block btn-warning btnGetPassengerDetail" data-toggle="modal" data-target="#modal-UpdatePassenger" data-guid="@item.Guid">Görüntüle</button>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>
+<div class="modal fade" id="modal-UpdatePassenger">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="HPassengerFullName"></h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtAdi_Update" class="col-sm-2 col-form-label">Ad</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtAdi_Update" placeholder="Email">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtSoyad_Update" class="col-sm-2 col-form-label">Soyad</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtSoyad_Update" placeholder="Email">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtKullaniciAdi_Update" class="col-sm-2 col-form-label">Kullanıcı Adı</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" disabled="disabled" id="txtKullaniciAdi_Update" placeholder="Email">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtEmail_Update" class="col-sm-2 col-form-label">Email</label>
+					<div class="col-sm-10">
+						<input type="email" class="form-control" id="txtEmail_Update" placeholder="Email">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtTelefonNumarasi_Update" class="col-sm-2 col-form-label">Telefon Numarası</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtTelefonNumarasi_Update" placeholder="Email">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnUpdatePassenger">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-AddPassenger">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Yeni Yolcu Ekle</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtAdi_Add" class="col-sm-2 col-form-label">Ad</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtAdi_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtSoyad_Add" class="col-sm-2 col-form-label">Soyad</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtSoyad_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtKullaniciAdi_Add" class="col-sm-2 col-form-label">Kullanıcı Adı</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtKullaniciAdi_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtEmail_Add" class="col-sm-2 col-form-label">Email</label>
+					<div class="col-sm-10">
+						<input type="email" class="form-control" id="txtEmail_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtTelefonNumarasi_Add" class="col-sm-2 col-form-label">Telefon Numarası</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtTelefonNumarasi_Add" placeholder="Doldurun">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnAddPassenger">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<script>
+	$(function () {
+		$("#example1").DataTable({
+			"responsive": true, "lengthChange": false, "autoWidth": false,
+			"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+		}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+	});
+	$('.btnGetPassengerDetail').click(function () {
+		var guid = $(this).attr('data-guid')
+		$.ajax({
+			url: "/Admin/Yolcu/" + guid,
+			type: "get",
+			success: function (response) {
+				$('#HPassengerFullName').html('').append(response.FirstName + " " + response.LastName)
+				$('#txtAdi_Update').val(response.FirstName)
+				$('#txtSoyad_Update').val(response.LastName)
+				$('#txtKullaniciAdi_Update').val(response.PassengerName)
+				$('#txtEmail_Update').val(response.Email)
+				$('#txtTelefonNumarasi_Update').val(response.PhoneNumber)
+				$('#btnUpdatePassenger').attr('data-guid', guid)
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	})
+	$('#btnUpdatePassenger').click(function () {
+		var passengerguid = $(this).attr('data-guid');
+		var updatePassengerDTO = {
+
+
+			"FirstName": $('#txtAdi_Update').val(),
+			"LastName": $('#txtSoyad_Update').val(),
+			"PassengerName": $('#txtKullaniciAdi_Update').val(),
+			"Email": $('#txtEmail_Update').val(),
+			"PhoneNumber": $('#txtTelefonNumarasi_Update').val(),
+			"Guid": passengerguid
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/UpdatePassenger",
+			type: "post",
+			data: { updatePassengerDTO },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Yolcu Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+	$('#btnAddPassenger').click(function () {
+
+		var addPassengerDTO = {
+
+
+			"FirstName": $('#txtAdi_Add').val(),
+			"LastName": $('#txtSoyad_Add').val(),
+			"PassengerName": $('#txtKullaniciAdi_Add').val(),
+			"Email": $('#txtEmail_Add').val(),
+			"PhoneNumber": $('#txtTelefonNumarasi_Add').val(),
+
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/AddPassenger",
+			type: "post",
+			data: { addPassengerDTO },
+			// beforeSend: function (xhr) {
+			// 	xhr.setRequestHeader("XSRF-Token", $('input:hidden[name="__RequestVerificationToken]').val())
+			// },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Yolcu Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+</script>
+

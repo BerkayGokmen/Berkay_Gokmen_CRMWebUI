@@ -1,0 +1,280 @@
+﻿@using Berkay_Gokmen_CRMWebUI.Areas.AdminPanel.Models.Payment
+@model List<PaymentDTO>
+@{
+    ViewData["Title"] = "Payments";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Payments</h1>
+<div class="card">
+	<div class="card-header">
+		<div class="card-tools">
+			<a href="#" class="btn btn-primary btn-block mb-3" data-toggle="modal" data-target="#modal-AddPayment">Ödeme Ekle</a>
+
+		</div>
+	</div>
+</div>
+
+
+<div class="card-body">
+	<table id="example1" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Amount</th>
+				<th>PaymentDate</th>
+				<th>PaymentMethod</th>
+				<th>BookingId</th>
+				<th>Booking</th>
+				<th>İşlemler</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.Amount</td>
+						<td>@item.PaymentDate</td>
+						<td>@item.PaymentMethod</td>
+						<td>@item.BookingId</td>
+						<td>@item.Booking</td>
+						<td>
+							<button type="button" class="btn btn-block btn-warning btnGetPaymentDetail" data-toggle="modal" data-target="#modal-UpdatePayment" data-guid="@item.Guid">Görüntüle</button>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>
+<div class="modal fade" id="modal-UpdatePayment">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="HPaymentFullName"></h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtAmount_Update" class="col-sm-2 col-form-label">Amount</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtAmount_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPaymentDate_Update" class="col-sm-2 col-form-label">PaymentDate</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtPaymentDate_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPaymentMethod_Update" class="col-sm-2 col-form-label">PaymentMethod</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" disabled="disabled" id="txtPaymentMethod_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtBookingId_Update" class="col-sm-2 col-form-label">BookingId</label>
+					<div class="col-sm-10">
+						<input type="email" class="form-control" id="txtBookingId_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtBooking_Update" class="col-sm-2 col-form-label">Booking</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtBooking_Update" placeholder="text">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnUpdatePayment">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-AddPayment">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Yeni Ödeme Ekle</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtAmount_Add" class="col-sm-2 col-form-label">Amount</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtAmount_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPaymentDate_Add" class="col-sm-2 col-form-label">PaymentDate</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtPaymentDate_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtPaymentMethod_Add" class="col-sm-2 col-form-label">PaymentMethod</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtPaymentMethod_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtBookingId_Add" class="col-sm-2 col-form-label">BookingId</label>
+					<div class="col-sm-10">
+						<input type="email" class="form-control" id="txtBookingId_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtBooking_Add" class="col-sm-2 col-form-label">Booking</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtBooking_Add" placeholder="Doldurun">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnAddPayment">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<script>
+	$(function () {
+		$("#example1").DataTable({
+			"responsive": true, "lengthChange": false, "autoWidth": false,
+			"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+		}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+	});
+	$('.btnGetPaymentDetail').click(function () {
+		var guid = $(this).attr('data-guid')
+		$.ajax({
+			url: "/Admin/Payment/" + guid,
+			type: "get",
+			success: function (response) {
+				$('#HPaymentFullName').html('').append(response.BookingId)
+				$('#txtAmount_Update').val(response.Amount)
+				$('#txtPaymentDate_Update').val(response.PaymentDate)
+				$('#txtPaymentMethod_Update').val(response.PaymentMethod)
+				$('#txtBookingId_Update').val(response.BookingId)
+				$('#txtBooking_Update').val(response.Booking)
+				$('#btnUpdatePayment').attr('data-guid', guid)
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	})
+	$('#btnUpdatePayment').click(function () {
+		var paymentguid = $(this).attr('data-guid');
+		var updatePaymentDTO = {
+
+
+			"Amount": $('#txtAmount_Update').val(),
+			"PaymentDate": $('#txtPaymentDate_Update').val(),
+			"PaymentMethod": $('#txtPaymentMethod_Update').val(),
+			"BookingId": $('#txtBookingId_Update').val(),
+			"Booking": $('#txtBooking_Update').val(),
+			"Guid": paymentguid
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/UpdatePayment",
+			type: "post",
+			data: { updatePaymentDTO },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Ödeme Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+	$('#btnAddPayment').click(function () {
+
+		var addPaymentDTO = {
+
+
+			"Amount": $('#txtAmount_Add').val(),
+			"PaymentDate": $('#txtPaymentDate_Add').val(),
+			"PaymentMethod": $('#txtPaymentMethod_Add').val(),
+			"BookingId": $('#txtBookingId_Add').val(),
+			"Booking": $('#txtBooking_Add').val(),
+
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/AddPayment",
+			type: "post",
+			data: { addPaymentDTO },
+			// beforeSend: function (xhr) {
+			// 	xhr.setRequestHeader("XSRF-Token", $('input:hidden[name="__RequestVerificationToken]').val())
+			// },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Ödeme Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+</script>
+

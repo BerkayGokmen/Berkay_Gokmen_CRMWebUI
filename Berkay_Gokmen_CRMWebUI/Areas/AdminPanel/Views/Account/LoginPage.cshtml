@@ -1,0 +1,99 @@
+﻿@using Berkay_Gokmen_CRMWebUI.Areas.AdminPanel.Models.Login.DTO
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model LoginRequestDTO
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>FlighterGLOBAL</title>
+
+	<!-- Google Font: Source Sans Pro -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/AdminUI/plugins/fontawesome-free/css/all.min.css">
+	<!-- icheck bootstrap -->
+	<link rel="stylesheet" href="/AdminUI/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="/AdminUI/dist/css/adminlte.min.css">
+	
+</head>
+<body style="background-color:ghostwhite !important"class="hold-transition login-page">
+	<div class="login-box">
+		<div class="login-logo">
+			<div>
+				<img src="/AdminUI/dist/img/3.gif" style="width:325px;height:325px;" alt="FRS" >
+			</div>
+		</div>
+		<!-- /.login-logo -->
+		<div class="card card-outline card-primary">
+			<div class="card-header text-center">
+				<a href="/Admin/Anasayfa" class="h1">Admin Panel</a>
+			</div>
+			<div class="card-body" >
+				<p class="login-box-msg">Sisteme Giriş Yapmak için Email ve Şifre Giriniz</p>
+				@{
+					if (ViewData["LoginError"] is not null)
+					{
+						<div class="alert alert-danger alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h5><i class="icon fas fa-ban"></i> Hata!</h5>
+							@ViewData["LoginError"].ToString();
+						</div>
+					}
+				}
+
+				<form asp-action="AdminLogin" asp-controller="Account" method="post">
+					<div class="input-group mb-3">
+						<input asp-for="KullaniciAdi" type="text" class="form-control" placeholder="KullaniciAdi">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-envelope"></span>
+							</div>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input asp-for="Sifre" type="email" class="form-control" placeholder="Şifre">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-lock"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<div class="icheck-primary">
+								<input type="checkbox" id="remember">
+								<label for="remember">
+									Beni Hatırla
+								</label>
+							</div>
+						</div>
+						<!-- /.col -->
+						<div class="col-4">
+							<button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+						</div>
+						<!-- /.col -->
+					</div>
+				</form>
+
+
+				<!-- /.social-auth-links -->
+
+
+
+			</div>
+			<!-- /.card-body -->
+		</div>
+		<!-- /.card -->
+	</div>
+	<!-- /.login-box -->
+	<!-- jQuery -->
+	<script src="/AdminUI/plugins/jquery/jquery.min.js"></script>
+	<!-- Bootstrap 4 -->
+	<script src="/AdminUI/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="/AdminUI/dist/js/adminlte.min.js"></script>
+</body>
+</html>
+

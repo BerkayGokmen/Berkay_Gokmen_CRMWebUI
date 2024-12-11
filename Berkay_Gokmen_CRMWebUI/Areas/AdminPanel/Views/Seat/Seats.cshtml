@@ -1,0 +1,270 @@
+﻿
+@{
+    ViewData["Title"] = "Seats";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Seats</h1>
+
+
+
+<div class="card">
+	<div class="card-header">
+		<div class="card-tools">
+			<a href="#" class="btn btn-primary btn-block mb-3" data-toggle="modal" data-target="#modal-AddSeat">Koltuk Ekle</a>
+
+		</div>
+	</div>
+</div>
+
+<div class="card-body">
+	<table id="example1" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>SeatNumber</th>
+				<th>IsBooked</th>
+				<th>FlightId</th>
+				<th>Flight</th>
+				
+				<th>İşlemler</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.SeatNumber</td>
+						
+						<td>@item.IsBooked</td>
+						<td>@item.FlightId</td>
+						<td>@item.Flight</td>
+						<td>
+							<button type="button" class="btn btn-block btn-warning btnGetSeatDetail" data-toggle="modal" data-target="#modal-UpdateSeat" data-guid="@item.Guid">Görüntüle</button>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>
+<div class="modal fade" id="modal-UpdateSeat">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="HSeatFullName"></h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtSeatNumber_Update" class="col-sm-2 col-form-label">SeatNumber</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtSeatNumber_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtIsBooked_Update" class="col-sm-2 col-form-label">IsBooked</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtIsBooked_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtFlightId_Update" class="col-sm-2 col-form-label">FlightId</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" disabled="disabled" id="txtFlightId_Update" placeholder="text">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtFlight_Update" class="col-sm-2 col-form-label">Flight</label>
+					<div class="col-sm-10">
+						<input type="email" class="form-control" id="txtFlight_Update" placeholder="text">
+					</div>
+				</div>
+				
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnUpdateSeat">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-AddSeat">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Yeni Koltuk Ekle</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label for="txtSeatNumber_Add" class="col-sm-2 col-form-label">SeatNumber</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtSeatNumber_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtIsBooked_Add" class="col-sm-2 col-form-label">IsBooked</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtIsBooked_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtFlightId_Add" class="col-sm-2 col-form-label">FlightId</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="txtFlightId_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="txtFlight_Add" class="col-sm-2 col-form-label">Flight</label>
+					<div class="col-sm-10">
+						<input type="email" class="form-control" id="txtFlight_Add" placeholder="Doldurun">
+					</div>
+				</div>
+				
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-primary" id="btnAddSeat">Değişiklikleri Kaydet</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<script>
+	$(function () {
+		$("#example1").DataTable({
+			"responsive": true, "lengthChange": false, "autoWidth": false,
+			"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+		}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+	});
+	$('.btnGetSeatDetail').click(function () {
+		var guid = $(this).attr('data-guid')
+		$.ajax({
+			url: "/Admin/Seat/" + guid,
+			type: "get",
+			success: function (response) {
+				$('#HSeatFullName').html('').append(response.SeatNumber)
+				$('#txtSeatNumber_Update').val(response.SeatNumber)
+				$('#txtIsBooked_Update').val(response.IsBooked)
+				$('#txtFlightId_Update').val(response.FlightId)
+				$('#txtFlight_Update').val(response.Flight)
+				
+				$('#btnUpdateSeat').attr('data-guid', guid)
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	})
+	$('#btnUpdateSeat').click(function () {
+		var seatguid = $(this).attr('data-guid');
+		var updateSeatDTO = {
+
+
+			"SeatNumber": $('#txtSeatNumber_Update').val(),
+			"IsBooked": $('#txtIsBooked_Update').val(),
+			"FlightId": $('#txtFlightId_Update').val(),
+			"Flight": $('#txtFlight_Update').val(),
+			
+			"Guid": seatguid
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/UpdateSeat",
+			type: "post",
+			data: { updateSeatDTO },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Koltuk Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+	$('#btnAddSeat').click(function () {
+
+		var addSeatDTO = {
+
+
+			"SeatNumber": $('#txtSeatNumber_Add').val(),
+			"IsBooked": $('#txtIsBooked_Add').val(),
+			"FlightId": $('#txtFlightId_Add').val(),
+			"Flight": $('#txtFlight_Add').val(),
+			
+
+
+
+		};
+
+		$.ajax({
+			url: "/Admin/AddSeat",
+			type: "post",
+			data: { addSeatDTO },
+			// beforeSend: function (xhr) {
+			// 	xhr.setRequestHeader("XSRF-Token", $('input:hidden[name="__RequestVerificationToken]').val())
+			// },
+			success: function (response) {
+				if (response.success) {
+					Swal.fire({
+						title: "İşlem Başarılı",
+						html: "Koltuk Bilgileri Başarıyla Güncelleşmiştir.Sayfa Tekrar Yükleniyor.",
+						icon: "success",
+						timer: 2000
+					}).then((result) => {
+						window.location.reload();
+					});
+				}
+				else {
+					Swal.fire({
+						title: "Hata Oluştu",
+						text: response.HataAciklama,
+						icon: "error"
+					});
+
+				}
+			},
+			Error: function (err) {
+				Swal.fire({
+					title: "Hata Oluştu",
+					text: err,
+					icon: "error"
+				});
+			}
+		});
+	});
+</script>
